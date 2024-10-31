@@ -3,6 +3,7 @@ import 'package:todo_couchbase/domain/data/database.dart';
 import 'features/home/screens/home_screen.dart';
 import 'package:cbl_flutter/cbl_flutter.dart';
 
+// Connecting to VM Service at ws://127.0.0.1:55128/0HZhGrNdcbs=/ws
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Now initialize Couchbase Lite.

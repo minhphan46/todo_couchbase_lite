@@ -38,10 +38,6 @@ class AppDatabase {
     await for (final result in resultSet.asStream()) {
       final docProps = result.dictionary(0)!;
       print('Result: $result');
-      // print('Document: $docProps');
-      // print('Document id: ${docProps.string('id')}');
-      // print('Document title: ${docProps.string('title')}');
-      // print('Document done: ${docProps.boolean('done')}');
 
       tasks.add(
         Task(
@@ -85,16 +81,14 @@ class AppDatabase {
   }) async {
     final database = await Database.openAsync('database');
     final collection = await database.collection('task');
-    final mutableDocument = MutableDocument({
-      'id': id,
-      'title': title,
-      'done': done,
-    });
-    await collection!.saveDocument(mutableDocument);
-    print(
-      'Updated document with id ${mutableDocument.id}, '
-      'adding language ${mutableDocument.string("language")!}.',
-    );
+    final document = (await collection!.document(docId))!;
+    final mutableDocument = document.toMutable();
+
+    mutableDocument.setString(id, key: 'id');
+    mutableDocument.setString(title, key: 'title');
+    mutableDocument.setBoolean(done, key: 'done');
+
+    await collection.saveDocument(mutableDocument);
     await database.close();
   }
 
